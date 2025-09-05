@@ -39,8 +39,8 @@ The solution provides the optimal asset allocation that balances expected return
   <img src="demo/Long_only.png" alt="Example of Long-only portfolio" width="500" />
 - **Hedging**: Implement long-short strategies on highly correlated assets to mitigate specific risk exposures
   <img src="demo/Long_short.png" alt="Example of Long-Short portfolio" width="500" />
-8. An interactive window display
-
+8. An interactive window displays the excess return probability. The user can move along the slider bar to choose the target return rate.
+   <img src="demo/excess_return.png" alt="Example of excess return probability" width="500" />
 ## Requirements
 
 - Python 3.12+
