@@ -19,7 +19,7 @@ A Python tool for calculating optimal investment portfolio allocations based on 
 
 4. Review correlation relationships between all stocks:
 
-   ![Correlation Matrix](images/correlation_matrix.png)
+   ![Correlation Matrix](demo/cov.png)
 
 5. Specify your risk aversion parameter (higher values indicate greater risk aversion)
 6. The tool calculates and displays the optimal portfolio allocation that maximizes your utility function
@@ -37,12 +37,12 @@ A Python tool for calculating optimal investment portfolio allocations based on 
 
 The optimization is based on Modern Portfolio Theory, which seeks to maximize the utility function:
 
-U = wᵀμ - (λ/2)wᵀΣw
+U = wᵀμ - (A/2)wᵀΣw
 
 Where:
 - w = vector of portfolio weights
 - μ = vector of expected returns
 - Σ = covariance matrix of returns
-- λ = risk aversion parameter
+- A = risk aversion parameter
 
 The solution provides the optimal asset allocation that balances expected returns against portfolio risk according to the investor's specific risk tolerance.
