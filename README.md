@@ -40,7 +40,7 @@ The solution provides the optimal asset allocation that balances expected return
 
 5. Specify your risk aversion parameter (higher values indicate greater risk aversion)
 6. The tool calculates, using gradient descent with Adam optimizer, the optimal portfolio allocation that maximizes your utility function.
-   ![Learning Curve and portfolio return distribution](demo/Learning_curve.png)
+   <img src="demo/Learning_curve.png" alt="Learning Curve and portfolio return distribution" width="500" />
 - **Risk Management**: Use correlation insights to balance portfolio concentration and avoid unintended risk overlaps
 - **Diversification**: Construct portfolios with low-correlation assets to reduce overall portfolio risk without sacrificing expected returns
 
