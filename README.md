@@ -3,7 +3,7 @@
 A Python tool for calculating optimal investment portfolio allocations based on Modern Portfolio Theory. This application analyzes historical stock data, calculates risk-return characteristics, and determines the optimal portfolio weights that maximize utility for a given risk preference.
 
 ## Features
-
+ 
 - **Stock Data Retrieval**: Fetches historical price data from Yahoo Finance using the yfinance API
 - **Return Analysis**: Calculates and visualizes the distribution of daily returns for each stock
 - **Correlation Analysis**: Computes and displays correlation coefficients across all stocks in the portfolio
