@@ -32,7 +32,6 @@ The solution provides the optimal asset allocation that balances expected return
 2. The application automatically fetches historical price data from Yahoo Finance
 3. Analyze the distribution of daily returns for each stock:
 
-   <img src="demo/dist_list.png" alt="Daily Returns Distribution" width="800" />
    
 4. Review correlation relationships between all stocks:
 
