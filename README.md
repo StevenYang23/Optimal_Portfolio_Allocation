@@ -22,22 +22,14 @@ A Python tool for calculating optimal investment portfolio allocations based on 
    ![Correlation Matrix](demo/COV.png)
 
 5. Specify your risk aversion parameter (higher values indicate greater risk aversion)
-6. The tool calculates and displays the optimal portfolio allocation that maximizes your utility function.
-
+6. The tool calculates, using gradient descent with Adam optimizer, the optimal portfolio allocation that maximizes your utility function.
    ![Learning Curve and portfolio return distribution](demo/Learning_curve.png)
-   The investor can invest on stock that has low corrlation for diversed investing
-   ![Example of Long-only portfolio](demo/Long_only.png)
-   Or Hedge througth Long and Short on stock with high corrlation
-   ![Example of Long-Short portfolio](demo/Long_short.png)
-8. An interactive window display
-
-## Investment Strategies
-
-Investors can employ several strategies based on correlation patterns:
-
-- **Diversification**: Construct portfolios with low-correlation assets to reduce overall portfolio risk without sacrificing expected returns
-- **Hedging**: Implement long-short strategies on highly correlated assets to mitigate specific risk exposures
 - **Risk Management**: Use correlation insights to balance portfolio concentration and avoid unintended risk overlaps
+- **Diversification**: Construct portfolios with low-correlation assets to reduce overall portfolio risk without sacrificing expected returns
+   ![Example of Long-only portfolio](demo/Long_only.png)
+- **Hedging**: Implement long-short strategies on highly correlated assets to mitigate specific risk exposures
+  <img src="demo/Long_short.png" alt="Example of Long-Short portfolio" width="500" />
+8. An interactive window display
 
 ## Requirements
 
