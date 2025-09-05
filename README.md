@@ -13,13 +13,16 @@ A Python tool for calculating optimal investment portfolio allocations based on 
 
 The optimization is based on Modern Portfolio Theory, which seeks to maximize the utility function:
 
-U = wᵀμ - (A/2)wᵀΣw
+$$
+U = \mathbf{w}^T \boldsymbol{\mu} - \frac{A}{2} \mathbf{w}^T \boldsymbol{\Sigma} \mathbf{w}
+$$
 
 Where:
-- w = vector of portfolio weights
-- μ = vector of expected returns
-- Σ = covariance matrix of returns
-- A = risk aversion parameter
+- $U$ = Investor's utility
+- $\mathbf{w}$ = Vector of portfolio weights ($w_1, w_2, ..., w_n$)
+- $\boldsymbol{\mu}$ = Vector of expected returns
+- $\boldsymbol{\Sigma}$ = Covariance matrix of asset returns
+- $A$ = Risk aversion coefficient
 
 The solution provides the optimal asset allocation that balances expected returns against portfolio risk according to the investor's specific risk tolerance.
 
