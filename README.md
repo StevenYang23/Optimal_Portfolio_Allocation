@@ -26,7 +26,7 @@ A Python tool for calculating optimal investment portfolio allocations based on 
 
 ## Requirements
 
-- Python 3.7+
+- Python 3.12+
 - yfinance
 - pandas
 - numpy
