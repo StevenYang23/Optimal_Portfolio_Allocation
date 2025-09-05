@@ -15,14 +15,16 @@ A Python tool for calculating optimal investment portfolio allocations based on 
 2. The application automatically fetches historical price data from Yahoo Finance
 3. Analyze the distribution of daily returns for each stock:
    
-   ![Daily Returns Distribution](images/returns_distribution.png)
+   ![Daily Returns Distribution](demo/dist_list.png)
 
 4. Review correlation relationships between all stocks:
 
-   ![Correlation Matrix](demo/cov.png)
+   ![Correlation Matrix](demo/COV.png)
 
 5. Specify your risk aversion parameter (higher values indicate greater risk aversion)
-6. The tool calculates and displays the optimal portfolio allocation that maximizes your utility function
+6. The tool calculates and displays the optimal portfolio allocation that maximizes your utility function.
+
+   ![Learning Curve and portfolio return distribution](demo/Learning_curve.png)
 
 ## Requirements
 
