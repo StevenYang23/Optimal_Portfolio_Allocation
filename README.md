@@ -75,14 +75,14 @@ Choose your optimization algorithm and risk aversion parameter:
 View optimal asset allocations and performance metrics:
 
 **Long-Only Portfolio Example:**
-<img src="demo/Long_only.png" alt="Example of Long-only portfolio" width="500" />
+<img src="demo/Long_only.png" alt="Example of Long-only portfolio" width="300" />
 
 **Long-Short Portfolio Example:**
-<img src="demo/Long_short.png" alt="Example of Long-Short portfolio" width="500" />
+<img src="demo/Long_short.png" alt="Example of Long-Short portfolio" width="300" />
 
 ### 6. **Interactive Analysis**
 Explore return probabilities with the interactive GUI:
-<img src="demo/excess_return.png" alt="Example of excess return probability" width="500" />
+<img src="demo/excess_return.png" alt="Example of excess return probability" width="800" />
 
 ### 7. **Out-of-Sample Testing**
 Evaluate portfolio performance using real 2025 market data:
@@ -146,4 +146,5 @@ pip install yfinance pandas numpy matplotlib scipy PyQt5 seaborn
 - **Corporate Actions**: Stock splits and dividends are automatically adjusted
 - **Liquidity**: Some assets may have limited trading volume
 - **Currency**: All data in USD unless otherwise specified
+
 
