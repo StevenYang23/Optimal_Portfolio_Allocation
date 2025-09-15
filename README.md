@@ -93,34 +93,14 @@ Evaluate portfolio performance using real 2025 market data:
 ## 📊 Key Results
 
 ### **Portfolio Performance (Example)**
-- **Expected Annual Return (2024)**: 7.64%
-- **Actual Monthly Return (2025)**: 9.67%
-- **Outperformance**: +2.03% above expectations
-- **Sharpe Ratio**: 0.17 (risk-adjusted performance)
-
-### **Investment Scenario ($10,000)**
-- **Initial Investment**: $10,000.00
-- **Expected Value**: $10,764.24
-- **Actual Value**: $10,966.89
-- **Profit**: $202.65 (1.9% above expectations)
+<img src="demo/report.png" alt="Example of report" width="500" />
 
 ## 🛠️ Installation & Requirements
-
-### **System Requirements**
-- Python 3.12+
-- Windows 10/11 (for PyQt5 GUI)
-- 4GB+ RAM recommended
 
 ### **Dependencies**
 ```bash
 pip install yfinance pandas numpy matplotlib scipy PyQt5 seaborn
 ```
-
-### **Quick Start**
-1. Clone the repository
-2. Install dependencies
-3. Run the Jupyter notebook
-4. Follow the interactive analysis
 
 ## 📈 Methodology
 
@@ -166,3 +146,4 @@ pip install yfinance pandas numpy matplotlib scipy PyQt5 seaborn
 - **Corporate Actions**: Stock splits and dividends are automatically adjusted
 - **Liquidity**: Some assets may have limited trading volume
 - **Currency**: All data in USD unless otherwise specified
+
