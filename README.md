@@ -93,59 +93,10 @@ Evaluate portfolio performance using real 2025 market data:
 ## 📊 Key Results
 
 ### **Portfolio Performance (Example)**
+Example of report
 <img src="demo/report.png" alt="Example of report" width="800" />
-
-## 🛠️ Installation & Requirements
-
-### **Dependencies**
-```bash
-pip install yfinance pandas numpy matplotlib scipy PyQt5 seaborn
-```
-
-## 📈 Methodology
-
-### **Training Phase (2024)**
-- **Data Source**: Daily stock prices from Yahoo Finance
-- **Processing**: Daily percentage changes scaled by 21 (monthly approximation)
-- **Optimization**: Full covariance matrix calculation for robust statistical modeling
-- **Algorithms**: Adam, Gradient Descent, or Closed-Form optimization
-
-### **Testing Phase (2025)**
-- **Data Source**: January 2025 monthly data
-- **Processing**: Simple monthly return rates for realistic evaluation
-- **Validation**: Out-of-sample performance testing
-- **Metrics**: Real investment return calculations
-
-## 🎯 Use Cases
-
-### **Individual Investors**
-- **Portfolio Construction**: Build diversified portfolios based on risk tolerance
-- **Asset Allocation**: Optimize weight distribution across different asset classes
-- **Risk Management**: Understand portfolio risk characteristics and correlations
-
-### **Financial Professionals**
-- **Research & Analysis**: Test portfolio optimization strategies
-- **Client Advisory**: Demonstrate portfolio construction methodologies
-- **Risk Assessment**: Analyze correlation patterns and diversification benefits
-
-### **Educational Purposes**
-- **Learning MPT**: Understand Modern Portfolio Theory concepts
-- **Algorithm Comparison**: Compare different optimization methods
-- **Statistical Analysis**: Learn about return distributions and correlations
-
-## ⚠️ Important Notes
-
-### **Risk Disclaimers**
-- **Past Performance**: Historical data does not guarantee future results
-- **Market Risk**: All investments carry inherent market risk
-- **Model Limitations**: Optimization models are based on historical assumptions
-- **Single Month Testing**: Limited test period may not reflect long-term performance
-
-### **Data Considerations**
-- **Market Hours**: Data reflects trading hours and market conditions
-- **Corporate Actions**: Stock splits and dividends are automatically adjusted
-- **Liquidity**: Some assets may have limited trading volume
-- **Currency**: All data in USD unless otherwise specified
+Geometric Brownian Motion
+<img src="demo/MC_SIM.png" alt="Example of report" width="800" />
 
 
 
