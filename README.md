@@ -149,3 +149,4 @@ pip install yfinance pandas numpy matplotlib scipy PyQt5 seaborn
 
 
 
+
