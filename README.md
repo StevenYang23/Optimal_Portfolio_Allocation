@@ -74,9 +74,6 @@ Choose your optimization algorithm and risk aversion parameter:
 ### 5. **Portfolio Allocation Results**
 View optimal asset allocations and performance metrics:
 
-**Long-Only Portfolio Example:**
-<img src="demo/Long_only.png" alt="Example of Long-only portfolio" width="400" />
-
 **Long-Short Portfolio Example:**
 <img src="demo/Long_short.png" alt="Example of Long-Short portfolio" width="400" />
 
@@ -97,6 +94,7 @@ Example of report
 <img src="demo/report.png" alt="Example of report" width="800" />
 Geometric Brownian Motion
 <img src="demo/MC_SIM.png" alt="Example of report" width="800" />
+
 
 
 
