@@ -92,8 +92,9 @@ Evaluate portfolio performance using real 2025 market data:
 ### **Portfolio Performance (Example)**
 **Example of a report** <br>
 <img src="demo/report.png" alt="Example of report" width="800" />
-**Geometric Brownian Motion** <br>
+<br>**Geometric Brownian Motion** <br>
 <img src="demo/MC_SIM.png" alt="Example of report" width="800" />
+
 
 
 
