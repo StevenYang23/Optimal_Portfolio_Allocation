@@ -130,6 +130,15 @@ This project implements several advanced portfolio optimization strategies based
 - Fast computation
 - Intuitive weighting scheme
 - Good baseline for comparison
+- 
+## Optimization Strategy Selection Guide
+
+| Strategy | Best For | Risk Profile | Key Parameter |
+|----------|----------|--------------|---------------|
+| **Max_util** | Custom risk preferences | Adjustable via A | Risk aversion (A) |
+| **MVP** | Risk minimization | Very low | Target return (optional) |
+| **MaxSharpe** | Risk-adjusted returns | Moderate | Risk-free rate (r) |
+| **RtnPerRisk** | Quick implementation | Moderate | None |
 
 ## Robust Estimation Methods
 
@@ -204,17 +213,8 @@ Accurate estimation of mean returns and covariance matrices is critical for port
 - Sample period is short
 - Portfolio weights exhibit high variability
 - Looking to improve out-of-sample performance
-
+  
 ---
-
-## Optimization Strategy Selection Guide
-
-| Strategy | Best For | Risk Profile | Key Parameter |
-|----------|----------|--------------|---------------|
-| **Max_util** | Custom risk preferences | Adjustable via A | Risk aversion (A) |
-| **MVP** | Risk minimization | Very low | Target return (optional) |
-| **MaxSharpe** | Risk-adjusted returns | Moderate | Risk-free rate (r) |
-| **RtnPerRisk** | Quick implementation | Moderate | None |
 
 ## Notes
 
@@ -222,4 +222,5 @@ Accurate estimation of mean returns and covariance matrices is critical for port
 - Log returns are used throughout for computational convenience
 - The project assumes daily returns for calculations
 - Monte Carlo simulation uses a fixed random seed for reproducibility
+
 
