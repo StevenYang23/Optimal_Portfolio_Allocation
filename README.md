@@ -51,17 +51,7 @@ This project implements several advanced portfolio optimization strategies based
 
 ### 1. Maximum Utility Portfolio (`Max_util`)
 
-**Objective**: Maximize investor utility based on mean-variance preference
-
-**Mathematical Formulation**:
-- Maximize: U(w) = w^T μ - 0.5 × A × w^T Σ w
-- Subject to: w^T 1 = 1 (weights sum to 1)
-
-Where:
-- `w`: Portfolio weight vector
-- `μ`: Expected returns vector
-- `Σ`: Covariance matrix
-- `A`: Risk aversion parameter
+**Objective**: Maximize investor utility based on mean-variance preference, balancing expected returns against portfolio risk according to the investor's risk tolerance.
 
 **Use Cases**:
 - Customizable risk-return tradeoff based on investor preferences
@@ -69,15 +59,9 @@ Where:
 - Suitable for investors with clear utility preferences
 
 **Key Features**:
+- Risk aversion parameter `A` controls the risk-return tradeoff
 - Higher `A` values lead to more conservative portfolios (higher weight on low-risk assets)
 - Lower `A` values allow for more aggressive strategies
-- Closed-form analytical solution available
-
-**Implementation**:
-```python
-A = 200  # Risk aversion parameter (higher = more risk averse)
-w = Max_util(mean_rtn, cov_m, A)
-```
 
 **Advantages**:
 - Explicitly models investor risk preferences
@@ -88,18 +72,7 @@ w = Max_util(mean_rtn, cov_m, A)
 
 ### 2. Minimum Variance Portfolio (`mvp`)
 
-**Objective**: Minimize portfolio variance/volatility
-
-**Mathematical Formulation**:
-- Minimize: w^T Σ w
-- Subject to: w^T 1 = 1
-
-**Constrained Version** (with target return):
-- Minimize: w^T Σ w
-- Subject to: w^T 1 = 1 and w^T μ = μ_target
-
-Where:
-- `μ_target`: Target expected return
+**Objective**: Minimize portfolio variance/volatility to achieve the lowest possible risk. Can optionally be constrained to achieve a specific target expected return.
 
 **Use Cases**:
 - Risk-averse investors prioritizing volatility reduction
@@ -109,17 +82,7 @@ Where:
 **Key Features**:
 - Provides the minimum risk portfolio on the efficient frontier
 - Can be constrained to achieve a specific target return
-- Analytical solution: w* = (Σ^(-1) × 1) / (1^T × Σ^(-1) × 1)
-
-**Implementation**:
-```python
-# Global minimum variance portfolio
-w = mvp(mean_rtn, cov_m)
-
-# Minimum variance with target return
-target_return = 0.005
-w = mvp(mean_rtn, cov_m, target_return=target_return)
-```
+- Analytical solution is available
 
 **Advantages**:
 - Minimizes downside risk
@@ -130,15 +93,7 @@ w = mvp(mean_rtn, cov_m, target_return=target_return)
 
 ### 3. Maximum Sharpe Ratio Portfolio (`MaxSharpe`)
 
-**Objective**: Maximize risk-adjusted return (Sharpe Ratio)
-
-**Mathematical Formulation**:
-- Maximize: SR = (w^T μ - r) / √(w^T Σ w)
-- Subject to: w^T 1 = 1
-
-Where:
-- `r`: Risk-free rate
-- `SR`: Sharpe Ratio (excess return per unit of risk)
+**Objective**: Maximize risk-adjusted return by optimizing the Sharpe Ratio, which measures excess return per unit of risk. Requires a risk-free rate to calculate excess returns.
 
 **Use Cases**:
 - Optimal portfolio when risk-free asset is available
@@ -148,14 +103,7 @@ Where:
 **Key Features**:
 - Finds the tangency portfolio on the efficient frontier
 - Maximizes return per unit of risk
-- Analytical solution: w* ∝ Σ^(-1) × (μ - r × 1)
-
-**Implementation**:
-```python
-r = 0.045  # Annual risk-free rate
-r_daily = r / 252  # Convert to daily rate
-w = MaxSharpe(mean_rtn, cov_m, r_daily)
-```
+- Analytical solution is available
 
 **Advantages**:
 - Optimal portfolio in mean-variance space when risk-free asset exists
@@ -166,11 +114,7 @@ w = MaxSharpe(mean_rtn, cov_m, r_daily)
 
 ### 4. Return per Risk Portfolio (`RtnPerRisk`)
 
-**Objective**: Maximize return per unit of risk using inverse variance weighting
-
-**Mathematical Formulation**:
-- Weights: w ∝ Σ^(-1) × μ
-- Normalized: w = (Σ^(-1) × μ) / (1^T × Σ^(-1) × μ)
+**Objective**: Create a portfolio using inverse variance weighting adjusted for expected returns, providing a simple risk-adjusted weighting scheme.
 
 **Use Cases**:
 - Simple risk-adjusted weighting scheme
@@ -181,11 +125,6 @@ w = MaxSharpe(mean_rtn, cov_m, r_daily)
 - Inverse covariance weighting adjusted for expected returns
 - Simpler alternative to full optimization
 - Computationally efficient
-
-**Implementation**:
-```python
-w = RtnPerRisk(mean_rtn, cov_m)
-```
 
 **Advantages**:
 - Fast computation
@@ -200,30 +139,7 @@ Accurate estimation of mean returns and covariance matrices is critical for port
 
 **Problem Addressed**: Standard sample mean and covariance estimators are sensitive to outliers, which are common in financial returns data. A few extreme returns can significantly distort portfolio weights.
 
-**Methodology**: Campbell's robust estimation method uses Mahalanobis distances to identify and downweight outliers, providing more reliable estimates of mean returns and covariance.
-
-**Mathematical Framework**:
-
-1. **Initial Estimates**:
-   - Sample mean: μ̂₀ = (1/n) Σᵢ rᵢ
-   - Sample covariance: Σ̂₀ = (1/(n-1)) Σᵢ (rᵢ - μ̂₀)(rᵢ - μ̂₀)^T
-
-2. **Mahalanobis Distance Calculation**:
-   - For each observation i: dᵢ = √[(rᵢ - μ̂₀)^T × Σ̂₀^(-1) × (rᵢ - μ̂₀)]
-   - Threshold: d₀ = √k + b₁/√2
-     - `k`: Number of assets
-     - `b₁`: Threshold parameter (default: 2.0)
-
-3. **Weight Assignment**:
-   - If dᵢ ≤ d₀: wᵢ = 1.0 (full weight)
-   - If dᵢ > d₀: wᵢ = (d₀ × exp[-(dᵢ - d₀)²/(2b₂²)]) / dᵢ
-     - `b₂`: Bandwidth parameter (default: 1.25)
-
-4. **Robust Mean**:
-   - μ̂_robust = Σᵢ wᵢ rᵢ / Σᵢ wᵢ
-
-5. **Robust Covariance**:
-   - Σ̂_robust = [Σᵢ wᵢ²(rᵢ - μ̂_robust)(rᵢ - μ̂_robust)^T] / [Σᵢ wᵢ² - 1]
+**Methodology**: Campbell's robust estimation method uses Mahalanobis distances to identify and downweight outliers. The method calculates distances for each observation, assigns lower weights to extreme observations that exceed a threshold, and then recalculates mean returns and covariance matrix using these weights. This process iteratively identifies outliers and reduces their influence on the final estimates.
 
 **Key Parameters**:
 - `b1` (default: 2.0): Controls the threshold distance beyond which observations are downweighted
@@ -238,11 +154,6 @@ Accurate estimation of mean returns and covariance matrices is critical for port
 - Handling market crashes or extreme events in return data
 - Improving portfolio stability in volatile markets
 - Reducing the impact of data errors or reporting anomalies
-
-**Implementation**:
-```python
-mean_rtn_robust, cov_m_robust = campbell_robust_est(rtn, b1=2.0, b2=1.25)
-```
 
 **Advantages**:
 - Reduces impact of outliers on portfolio weights
@@ -262,28 +173,7 @@ mean_rtn_robust, cov_m_robust = campbell_robust_est(rtn, b1=2.0, b2=1.25)
 
 **Problem Addressed**: In small samples or when the number of assets approaches the sample size, sample mean returns have high estimation error. The James-Stein paradox shows that shrinking sample means toward a common target can reduce total mean-squared error.
 
-**Methodology**: The shrinkage estimator shrinks sample mean returns toward the minimum variance portfolio (MVP) return, effectively borrowing strength across assets to reduce estimation error.
-
-**Mathematical Framework**:
-
-1. **Sample Estimates**:
-   - Sample mean: μ̂ = (1/n) Σᵢ rᵢ
-   - Sample covariance: Σ̂ = (1/(n-1)) Σᵢ (rᵢ - μ̂)(rᵢ - μ̂)^T
-
-2. **MVP Calculation**:
-   - MVP weights: w_MVP = (Σ̂^(-1) × 1) / (1^T × Σ̂^(-1) × 1)
-   - MVP return: μ_MVP = w_MVP^T × μ̂
-
-3. **Shrinkage Intensity**:
-   - s_w = (k + 2) / (k + 2 + n × (μ̂ - μ_MVP)^T × [(n-k-2)/(n-1)] × Σ̂^(-1) × (μ̂ - μ_MVP))
-   - Where:
-     - `k`: Number of assets
-     - `n`: Number of observations
-     - Denominator is adjusted inverse covariance matrix
-
-4. **Shrunk Mean**:
-   - μ̂_shrink = (1 - s_w) × μ̂ + s_w × μ_MVP × 1
-   - Where `1` is a vector of ones
+**Methodology**: The shrinkage estimator shrinks sample mean returns toward the minimum variance portfolio (MVP) return, effectively borrowing strength across assets to reduce estimation error. The method calculates how similar the sample means are to the MVP return, determines an optimal shrinkage intensity based on this similarity, and then creates a weighted average between the sample means and the MVP return. The shrinkage intensity automatically adjusts based on the data quality and dimensionality.
 
 **Interpretation**:
 - When sample means are similar to MVP return → s_w → 1 (more shrinkage)
@@ -302,11 +192,6 @@ mean_rtn_robust, cov_m_robust = campbell_robust_est(rtn, b1=2.0, b2=1.25)
 - Reducing estimation error in mean returns
 - Stabilizing portfolio weights across rebalancing periods
 
-**Implementation**:
-```python
-shrinkage_mean = shrinkage_mean_return(rtn, stock_list)
-```
-
 **Advantages**:
 - Reduces mean-squared error of return estimates
 - More stable portfolio weights
@@ -315,15 +200,10 @@ shrinkage_mean = shrinkage_mean_return(rtn, stock_list)
 - Well-grounded in statistical theory
 
 **When to Use**:
-- Number of assets (k) is large relative to sample size (n)
+- Number of assets is large relative to sample size
 - Sample period is short
 - Portfolio weights exhibit high variability
 - Looking to improve out-of-sample performance
-
-**Mathematical Notes**:
-- Shrinkage toward MVP is theoretically motivated: MVP return represents a natural "center" of the return distribution
-- The shrinkage intensity formula accounts for the covariance structure, providing optimal shrinkage in mean-squared error sense
-- As sample size increases, shrinkage intensity naturally decreases (s_w → 0)
 
 ---
 
@@ -364,23 +244,7 @@ shrinkage_mean = shrinkage_mean_return(rtn, stock_list)
 2. Apply shrinkage to robust estimates to reduce small-sample bias
 3. Use optimized estimates in portfolio construction
 
-**Implementation Example**:
-```python
-# Step 1: Robust estimation to handle outliers
-mean_rtn_robust, cov_m_robust = campbell_robust_est(rtn, b1=2.0, b2=1.25)
-
-# Step 2: Shrinkage on robust estimates (if needed)
-if apply_shrinkage:
-    # Recreate returns with robust mean for shrinkage
-    shrinkage_mean = shrinkage_mean_return(rtn, stock_list)
-    # Use shrinkage mean for return-sensitive optimizations
-    mean_rtn_final = shrinkage_mean
-else:
-    mean_rtn_final = mean_rtn_robust
-
-# Step 3: Portfolio optimization
-w = MaxSharpe(mean_rtn_final, cov_m_robust, r_daily)
-```
+**Purpose**: Combining both methods provides maximum stability by first removing the influence of outliers (robust estimation) and then reducing small-sample estimation error (shrinkage). This two-stage approach addresses both data quality and statistical estimation challenges simultaneously.
 
 ### Optimization Strategy Selection Guide
 
@@ -390,34 +254,6 @@ w = MaxSharpe(mean_rtn_final, cov_m_robust, r_daily)
 | **MVP** | Risk minimization | Very low | Target return (optional) |
 | **MaxSharpe** | Risk-adjusted returns | Moderate | Risk-free rate (r) |
 | **RtnPerRisk** | Quick implementation | Moderate | None |
-
-### Complete Workflow Recommendation
-
-```python
-# 1. Load and inspect data
-rtn, prices = load_data(stock_list)
-plot_insight(cor_m, prices)
-
-# 2. Apply robust estimation
-mean_rtn, cov_m = campbell_robust_est(rtn, b1=2.0, b2=1.25)
-plot_distribution(rtn, stock_list)
-
-# 3. Apply shrinkage (if small sample or many assets)
-if len(stock_list) / len(rtn) > 0.1:  # k/n ratio check
-    shrinkage_mean = shrinkage_mean_return(rtn, stock_list)
-    mean_rtn = shrinkage_mean
-
-# 4. Set constraints and optimize
-short_res = [1, 1, 1, 1, 1, 1]  # Short selling allowed
-mean_rtn_active, cov_m_active = active(short_res, mean_rtn, cov_m)
-
-# 5. Choose optimization strategy
-w = MaxSharpe(mean_rtn_active, cov_m_active, r_daily)
-w = expand_weights(w, short_res)
-
-# 6. Analyze and visualize
-mu_port, sigma_port = plot_port(w, mean_rtn, cov_m, rtn, stock_list, A)
-```
 
 ## Key Functions
 
