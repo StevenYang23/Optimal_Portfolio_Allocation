@@ -130,7 +130,7 @@ This project implements several advanced portfolio optimization strategies based
 - Fast computation
 - Intuitive weighting scheme
 - Good baseline for comparison
-- 
+  
 ## Optimization Strategy Selection Guide
 
 | Strategy | Best For | Risk Profile | Key Parameter |
@@ -222,5 +222,6 @@ Accurate estimation of mean returns and covariance matrices is critical for port
 - Log returns are used throughout for computational convenience
 - The project assumes daily returns for calculations
 - Monte Carlo simulation uses a fixed random seed for reproducibility
+
 
 
