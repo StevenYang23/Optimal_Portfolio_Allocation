@@ -1,107 +1,228 @@
-# 📊 Optimal Portfolio Allocation using Modern Portfolio Theory
+# 📊 Optimal Portfolio Allocation
 
-A comprehensive Python tool for calculating optimal investment portfolio allocations based on Modern Portfolio Theory. This application analyzes historical stock data, calculates risk-return characteristics, and determines optimal portfolio weights using advanced optimization algorithms including Adam, Gradient Descent, and Closed-Form solutions.
+A comprehensive Python project for optimal portfolio allocation using various optimization strategies, robust estimation methods, and Monte Carlo simulation. This project implements modern portfolio theory techniques to construct efficient portfolios and analyze their performance.
 
-## ✨ Features
+## Features
 
-### 🎯 **Multi-Asset Portfolio Optimization**
-- **9 Diversified Assets**: Technology (NVDA, AAPL, MSFT, INTC), E-commerce (AMZN), Automotive (TSLA), Retail (COST), Aerospace (BA), Cryptocurrency (BTC)
-- **Sector Diversification**: Balanced exposure across different market sectors
-- **Risk Management**: Long-only and long-short portfolio strategies
+- **Data Processing**: Download and process stock data from Yahoo Finance
+- **Robust Estimation**: Campbell's robust method for mean and covariance estimation to handle outliers
+- **Shrinkage Estimators**: James-Stein type shrinkage for reducing estimation error
+- **Portfolio Optimization**: Multiple optimization strategies including:
+  - Maximum Utility Portfolio
+  - Minimum Variance Portfolio (MVP)
+  - Maximum Sharpe Ratio Portfolio
+  - Return per Risk Portfolio
+- **Visualization**: Comprehensive plots for data analysis, portfolio performance, and distributions
+- **Monte Carlo Simulation**: Geometric Brownian Motion simulation for portfolio value forecasting
 
-### 📈 **Advanced Data Analysis**
-- **Hybrid Methodology**: Daily data for training (2024), monthly data for testing (2025)
-- **Statistical Analysis**: Comprehensive return distribution analysis with Gaussian fitting
-- **Correlation Analysis**: Full correlation matrix with heatmap visualization
-- **Risk Metrics**: Volatility, Sharpe ratio, maximum drawdown calculations
+## Installation
 
-### 🧠 **Multiple Optimization Algorithms**
-- **Adam Optimization**: Adaptive moment estimation with momentum and learning rate adaptation
-- **Gradient Descent**: Classical first-order optimization method
-- **Closed-Form Solution**: Analytical solution using matrix inversion
-- **Convergence Analysis**: Learning curves and optimization performance comparison
+### Requirements
 
-### 🎮 **Interactive Features**
-- **Real-time GUI**: PyQt5-based interactive distribution explorer
-- **Dynamic Sliders**: Adjust return thresholds and see probability calculations
-- **Visual Analytics**: Comprehensive charts and statistical visualizations
-- **Performance Tracking**: Out-of-sample testing with real market data
-
-## 🔬 Theory
-
-The optimization is based on **Modern Portfolio Theory**, which seeks to maximize the utility function:
-
-$$
-U = \mathbf{w}^T \boldsymbol{\mu} - \frac{A}{2} \mathbf{w}^T \boldsymbol{\Sigma} \mathbf{w}
-$$
-
-**Subject to constraints:**
-- Budget constraint: $\sum_{i=1}^{n} w_i = 1$ (weights sum to 100%)
-- Long-only constraint: $w_i \geq 0$ (no short selling)
-
-**Where:**
-- $U$ = Investor's utility function
-- $\mathbf{w}$ = Vector of portfolio weights ($w_1, w_2, ..., w_n$)
-- $\boldsymbol{\mu}$ = Vector of expected returns (from 2024 daily data)
-- $\boldsymbol{\Sigma}$ = Covariance matrix of asset returns (from 2024 daily data)
-- $A$ = Risk aversion coefficient (higher values = more risk averse)
-
-## 🚀 Usage
-
-### 1. **Data Collection & Processing**
-```python
-# The application automatically fetches historical data
-# Training: 2024 daily data for optimization
-# Testing: 2025 monthly data for evaluation
+```bash
+pip install numpy pandas matplotlib seaborn scipy yfinance
 ```
 
-### 2. **Statistical Analysis**
-Analyze the distribution of daily returns for each stock:
-<img src="demo/dist_list.png" alt="Daily Returns Distribution" width="800" />
+Or install from requirements.txt (if available):
 
-### 3. **Correlation Analysis**
-Review correlation relationships between all stocks:
-<img src="demo/COV.png" alt="Correlation Matrix" width="1000" />
+```bash
+pip install -r requirements.txt
+```
 
-### 4. **Portfolio Optimization**
-Choose your optimization algorithm and risk aversion parameter:
-- **Adam**: Advanced optimization with adaptive learning rates
-- **Gradient Descent**: Classical optimization method
-- **Closed-Form**: Analytical solution
+## Project Structure
 
-<img src="demo/Learning_curve.png" alt="Learning Curve and portfolio return distribution" width="1000" />
+```
+Optimal_Portfolio_Allocation/
+│
+├── main.ipynb              # Main notebook with complete workflow
+├── load_data.py            # Data loading and visualization functions
+├── optimization.py         # Portfolio optimization strategies
+├── rubust_mean_cov.py      # Robust mean and covariance estimation
+├── Shrinkage.py            # Shrinkage estimator for mean returns
+├── GBM.py                  # Geometric Brownian Motion simulation
+├── demo/                   # Demo images and visualizations
+│   ├── Data_insight.png
+│   ├── dist_list.png
+│   ├── BackTest_and_report_weight.png
+│   └── MC_sim.png
+└── README.md
+```
 
-### 5. **Portfolio Allocation Results**
-View optimal asset allocations and performance metrics:
+## Usage
 
-**Long-Short Portfolio Example:**
-<img src="demo/Long_short.png" alt="Example of Long-Short portfolio" width="400" />
+### Basic Workflow
 
-### 6. **Interactive Analysis**
-Explore return probabilities with the interactive GUI:
-<img src="demo/excess_return.png" alt="Example of excess return probability" width="800" />
+1. **Import required modules**:
+```python
+from load_data import load_data, plot_insight, plot_distribution
+from optimization import mvp, MaxSharpe, Max_util, RtnPerRisk, plot_port, expand_weights, active
+from Shrinkage import shrinkage_mean_return
+from GBM import GBM_simulation
+from rubust_mean_cov import campbell_robust_est
+```
 
-### 7. **Out-of-Sample Testing**
-Evaluate portfolio performance using real 2025 market data:
-- **Expected vs Actual Returns**: Compare predictions with reality
-- **Risk-Adjusted Performance**: Sharpe ratio and volatility analysis
-- **Individual Asset Contributions**: See which positions drove performance
+2. **Load and process data**:
+```python
+stock_list = ["NVDA", "AAPL", "MSFT", "GOOG", "TSLA", "AMZN"]
+rtn, prices = load_data(stock_list)
+mean_rtn = rtn.mean().to_numpy()
+cov_m = rtn.cov().to_numpy()
+cor_m = rtn.corr()
+plot_insight(cor_m, prices)
+```
 
-## 📊 Key Results
+3. **Apply robust estimation**:
+```python
+mean_rtn, cov_m = campbell_robust_est(rtn, b1=2, b2=1.24)
+plot_distribution(rtn, stock_list)
+```
 
-### **Portfolio Performance (Example)**
-**Example of a report** <br>
-<img src="demo/report.png" alt="Example of report" width="800" />
-<br>**Geometric Brownian Motion** <br>
-<img src="demo/MC_SIM.png" alt="Example of report" width="800" />
+4. **Construct portfolio**:
+```python
+# Set parameters
+A = 200  # Risk aversion parameter
+r = 0.045  # Risk-free rate
+r_daily = r/252
+target_return = 0.005
+Shrinkage = True
 
+# Short selling constraints (1 = allowed, 0 = not allowed)
+short_res = [1, 1, 1, 1, 1, 1]
 
+# Apply shrinkage if enabled
+if Shrinkage:
+    shrinkage_mean = shrinkage_mean_return(rtn, stock_list)
+    mean_rtn_active = shrinkage_mean
 
+mean_rtn_active, cov_m_active = active(short_res, mean_rtn, cov_m)
 
+# Choose optimization strategy
+w = MaxSharpe(mean_rtn_active, cov_m_active, r_daily)
+w = expand_weights(w, short_res)
 
+# Plot portfolio analysis
+mu_port, sigma_port = plot_port(w, mean_rtn, cov_m, rtn, stock_list, A)
+```
 
+5. **Monte Carlo Simulation**:
+```python
+T = 1/12  # 1 month
+N = int(T*252)
+S0 = 100
+M = 1000
 
+sim_value = GBM_simulation(
+    vol_annual=sigma_port*100,
+    mu_annual=mu_port*100,
+    S0=S0,
+    T=T,
+    N=N,
+    M=M
+)
+```
 
+## Visualization Examples
 
+### Data Insights
+![Data Insight](demo/Data_insight.png)
 
+The data insight plot shows:
+- Correlation matrix heatmap displaying relationships between assets
+- Price history time series for all stocks in the portfolio
+
+### Return Distribution Analysis
+![Distribution List](demo/dist_list.png)
+
+This visualization compares empirical return distributions with Gaussian distributions for each stock, providing insights into the distribution characteristics and normality assumptions.
+
+### Portfolio Performance and Weights
+![BackTest and Report Weight](demo/BackTest_and_report_weight.png)
+
+Comprehensive portfolio analysis including:
+- Cumulative return over time
+- Return distribution histogram with normal distribution overlay
+- Portfolio weight allocation across assets
+
+### Monte Carlo Simulation
+![MC Simulation](demo/MC_sim.png)
+
+Geometric Brownian Motion simulation results:
+- Simulated price paths over time
+- Terminal value distribution with lognormal fit
+- Statistical summary (mean and standard deviation)
+
+## Portfolio Optimization Strategies
+
+### 1. Maximum Utility Portfolio (`Max_util`)
+Maximizes the utility function: U = μ - 0.5 × A × σ²
+- `A`: Risk aversion parameter
+
+### 2. Minimum Variance Portfolio (`mvp`)
+Minimizes portfolio variance
+- Optional `target_return` parameter for constrained optimization
+
+### 3. Maximum Sharpe Ratio Portfolio (`MaxSharpe`)
+Maximizes (μ_p - r) / σ_p
+- `r`: Risk-free rate
+
+### 4. Return per Risk Portfolio (`RtnPerRisk`)
+Inverse variance weighting approach
+
+## Robust Estimation Methods
+
+### Campbell's Robust Estimation
+Uses Mahalanobis distances to identify and downweight outliers:
+- More robust than sample mean and covariance
+- Parameters: `b1` (threshold), `b2` (bandwidth)
+
+### Shrinkage Estimator
+James-Stein type shrinkage that shrinks sample means toward the minimum variance portfolio return:
+- Reduces estimation error in small samples
+- Particularly useful when sample size is limited
+
+## Key Functions
+
+### Data Loading (`load_data.py`)
+- `load_data(stock_list)`: Download and calculate log returns
+- `plot_insight(cor_m, prices)`: Visualize correlation and prices
+- `plot_distribution(rtn, stock_list)`: Plot return distributions
+
+### Optimization (`optimization.py`)
+- `cal_mean_var(weights, mean_np, cov_np)`: Calculate portfolio return and variance
+- `cal_util(mu, var, A)`: Calculate utility
+- `mvp(mean_rtn, cov_m, target_return=None)`: Minimum variance portfolio
+- `MaxSharpe(mean_rtn, cov_m, r)`: Maximum Sharpe ratio portfolio
+- `Max_util(mean_rtn, cov_m, A)`: Maximum utility portfolio
+- `plot_port(w, mean_rtn, cov_m, rtn, stock_list, A)`: Comprehensive portfolio visualization
+
+### Robust Estimation (`rubust_mean_cov.py`)
+- `campbell_robust_est(rtn, b1=2.0, b2=1.25)`: Robust mean and covariance estimation
+
+### Shrinkage (`Shrinkage.py`)
+- `shrinkage_mean_return(rtn, stock_list)`: Shrinkage estimator for mean returns
+
+### Simulation (`GBM.py`)
+- `GBM_simulation(vol_annual, mu_annual, S0, T, N, M, m_show=100)`: Geometric Brownian Motion simulation
+
+## Parameters
+
+- **Risk Aversion (A)**: Higher values indicate greater risk aversion
+- **Risk-free Rate (r)**: Used for Sharpe ratio calculation
+- **Short Selling Constraints**: Binary vector indicating which assets can be shorted
+- **Shrinkage**: Boolean flag to enable/disable shrinkage estimation
+
+## Notes
+
+- All portfolios are normalized to sum to 1
+- Log returns are used throughout for computational convenience
+- The project assumes daily returns for calculations
+- Monte Carlo simulation uses a fixed random seed for reproducibility
+
+## License
+
+This project is provided as-is for educational and research purposes.
+
+## Author
+
+Financial Portfolio Optimization Project
 

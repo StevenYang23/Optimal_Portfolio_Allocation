@@ -4,18 +4,87 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+import matplotlib.dates as mdates
 
 def load_data(stock_list):
+    """
+    Download stock data from Yahoo Finance and calculate log returns.
+    
+    Parameters:
+    -----------
+    stock_list : list
+        List of stock ticker symbols to download
+    
+    Returns:
+    --------
+    pandas.DataFrame
+        DataFrame containing log returns for each stock with dates as index
+    """
     data = yf.download(stock_list, start="2025-09-01", interval="1d")
     prices = data['Close']
     rtn = np.log(prices / prices.shift(1)).dropna()
-    return rtn
-def plot_cor(cor_m):
-    plt.figure(figsize=(8, 6))
-    sns.heatmap(cor_m, annot=True, cmap='coolwarm', vmin=-1, vmax=1, linewidths=0.5)
-    plt.title('Correlation Matrix Heatmap')
+    return rtn, prices
+
+def plot_insight(cor_m, prices):
+    """
+    Plot correlation matrix as a heatmap and prices as line graphs in subplots,
+    with the legend in the upper right to label each series. Ensures enough space for labels.
+
+    Parameters:
+    -----------
+    cor_m : array-like
+        Correlation matrix to visualize (2D array or DataFrame)
+    prices : DataFrame
+        DataFrame of asset prices (index: date, columns: tickers)
+
+    Returns:
+    --------
+    None
+        Displays a figure with two subplots: heatmap of correlations and price time series
+    """
+    fig, axs = plt.subplots(1, 2, figsize=(18, 7))
+    # Heatmap subplot
+    sns.heatmap(cor_m, annot=True, cmap='coolwarm', vmin=-1, vmax=1, linewidths=0.5, ax=axs[0])
+    axs[0].set_title('Correlation Matrix Heatmap')
+
+    # Price line graph subplot with legend in upper right
+    if hasattr(prices, "columns"):
+        for col in prices.columns:
+            axs[1].plot(prices.index, prices[col], label=str(col))
+        axs[1].set_title('Price History')
+        axs[1].set_xlabel('Date')
+        axs[1].set_ylabel('Price')
+        # Format date ticks if the index contains dates
+        if prices.index.dtype.kind in {'M', 'm'}:
+            axs[1].xaxis.set_major_locator(mdates.AutoDateLocator())
+            axs[1].xaxis.set_major_formatter(mdates.ConciseDateFormatter(mdates.AutoDateLocator()))
+        axs[1].legend(loc='upper right', fontsize=11, frameon=True)
+    else:
+        # fallback for numpy/array input
+        axs[1].plot(prices)
+        axs[1].set_title('Price History')
+        axs[1].set_xlabel('Time')
+        axs[1].set_ylabel('Price')
+
+    plt.tight_layout(rect=[0, 0, 1, 0.98]) # leave slightly more space on top
     plt.show()
+    
 def plot_distribution(rtn,stock_list):
+    """
+    Plot distribution of returns for each stock, comparing empirical distribution with Gaussian distribution.
+    
+    Parameters:
+    -----------
+    rtn : pandas.DataFrame
+        DataFrame containing log returns for each stock
+    stock_list : list
+        List of stock ticker symbols to plot
+    
+    Returns:
+    --------
+    None
+        Displays subplots showing return distributions for each stock with statistical information
+    """
     warnings.filterwarnings('ignore')
     # Set style for better visualizations
     plt.style.use('seaborn-v0_8')
