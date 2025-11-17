@@ -38,7 +38,7 @@ Comprehensive portfolio analysis including:
 - Portfolio weight allocation across assets
 
 ### Monte Carlo Simulation
-![MC Simulation](demo/MC_sim.png)
+![MC Simulation](demo/sim.png)
 
 Geometric Brownian Motion simulation results:
 - Simulated price paths over time
@@ -169,7 +169,7 @@ Accurate estimation of mean returns and covariance matrices is critical for port
 
 ---
 
-### Shrinkage Estimator (`shrinkage_mean_return`)
+## Shrinkage Estimator (`shrinkage_mean_return`)
 
 **Problem Addressed**: In small samples or when the number of assets approaches the sample size, sample mean returns have high estimation error. The James-Stein paradox shows that shrinking sample means toward a common target can reduce total mean-squared error.
 
@@ -207,46 +207,7 @@ Accurate estimation of mean returns and covariance matrices is critical for port
 
 ---
 
-## Choosing the Right Method
-
-### When to Use Robust Estimation
-
-**Use Campbell's Robust Estimation when**:
-- Working with high-volatility assets (e.g., technology stocks, cryptocurrencies)
-- Data contains known outliers or extreme events
-- Portfolio weights from standard estimation seem unstable
-- Market conditions include crashes or unusual volatility spikes
-- Data quality is questionable or contains reporting errors
-
-**Combined with optimization strategies**:
-- Robust estimation works well with all optimization strategies
-- Particularly valuable for MVP and MaxSharpe when outliers could distort results
-- Recommended for utility-based portfolios when extreme returns affect risk perception
-
-### When to Use Shrinkage Estimation
-
-**Use Shrinkage Estimation when**:
-- Number of assets (k) is large relative to sample size (n), e.g., k/n > 0.1
-- Historical data period is short (e.g., < 2 years of daily data)
-- Portfolio weights change dramatically with small data updates
-- Looking to improve out-of-sample performance
-- Working with newly listed assets with limited history
-
-**Combined with optimization strategies**:
-- Shrinkage is most beneficial for return-sensitive strategies (MaxSharpe, Max_util)
-- Less critical for MVP which primarily depends on covariance
-- Can be combined with robust estimation for maximum stability
-
-### Combining Robust and Shrinkage Methods
-
-**Recommended Workflow**:
-1. Apply robust estimation first to handle outliers
-2. Apply shrinkage to robust estimates to reduce small-sample bias
-3. Use optimized estimates in portfolio construction
-
-**Purpose**: Combining both methods provides maximum stability by first removing the influence of outliers (robust estimation) and then reducing small-sample estimation error (shrinkage). This two-stage approach addresses both data quality and statistical estimation challenges simultaneously.
-
-### Optimization Strategy Selection Guide
+## Optimization Strategy Selection Guide
 
 | Strategy | Best For | Risk Profile | Key Parameter |
 |----------|----------|--------------|---------------|
@@ -255,49 +216,10 @@ Accurate estimation of mean returns and covariance matrices is critical for port
 | **MaxSharpe** | Risk-adjusted returns | Moderate | Risk-free rate (r) |
 | **RtnPerRisk** | Quick implementation | Moderate | None |
 
-## Key Functions
-
-### Data Loading (`load_data.py`)
-- `load_data(stock_list)`: Download and calculate log returns
-- `plot_insight(cor_m, prices)`: Visualize correlation and prices
-- `plot_distribution(rtn, stock_list)`: Plot return distributions
-
-### Optimization (`optimization.py`)
-- `cal_mean_var(weights, mean_np, cov_np)`: Calculate portfolio return and variance
-- `cal_util(mu, var, A)`: Calculate utility
-- `mvp(mean_rtn, cov_m, target_return=None)`: Minimum variance portfolio
-- `MaxSharpe(mean_rtn, cov_m, r)`: Maximum Sharpe ratio portfolio
-- `Max_util(mean_rtn, cov_m, A)`: Maximum utility portfolio
-- `plot_port(w, mean_rtn, cov_m, rtn, stock_list, A)`: Comprehensive portfolio visualization
-
-### Robust Estimation (`rubust_mean_cov.py`)
-- `campbell_robust_est(rtn, b1=2.0, b2=1.25)`: Robust mean and covariance estimation
-
-### Shrinkage (`Shrinkage.py`)
-- `shrinkage_mean_return(rtn, stock_list)`: Shrinkage estimator for mean returns
-
-### Simulation (`GBM.py`)
-- `GBM_simulation(vol_annual, mu_annual, S0, T, N, M, m_show=100)`: Geometric Brownian Motion simulation
-
-## Parameters
-
-- **Risk Aversion (A)**: Higher values indicate greater risk aversion
-- **Risk-free Rate (r)**: Used for Sharpe ratio calculation
-- **Short Selling Constraints**: Binary vector indicating which assets can be shorted
-- **Shrinkage**: Boolean flag to enable/disable shrinkage estimation
-
 ## Notes
 
 - All portfolios are normalized to sum to 1
 - Log returns are used throughout for computational convenience
 - The project assumes daily returns for calculations
 - Monte Carlo simulation uses a fixed random seed for reproducibility
-
-## License
-
-This project is provided as-is for educational and research purposes.
-
-## Author
-
-Financial Portfolio Optimization Project
 
